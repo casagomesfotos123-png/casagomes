@@ -56,7 +56,7 @@ function gerarLinkWhatsApp() {
 
   return (
     <>
-      <nav data-aos='fade' data-aos-delay='' className="fixed top-0 left-0 flex flex-row flex-wrap w-full justify-between md:pl-[25px] md:pr-[25px] pl-[10px] pr-[20px] items-center pt-[5px] pb-[5px] 
+      <nav data-aos='fade' data-aos-delay='' className="fixed top-0 left-0 flex flex-row flex-wrap  w-[100vw] max-w-[100%] justify-between md:pl-[25px] md:pr-[25px] pl-[10px] pr-[20px] items-center pt-[5px] pb-[5px] 
   bg-transparent/30 backdrop-blur-md shadow-sm z-[1000000]">
         <Link to="/#hero">
           <img
