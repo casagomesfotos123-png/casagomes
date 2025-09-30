@@ -2,9 +2,9 @@ import Navbar from '../components/Navbar'
 import ContainerHero from "../components/Hero"
 import NossaHistoria from '../components/NossaHistoria'
 import Variedade from '../components/Variedades'
-import MapasCarousel from '../components/Localização'
+import MapasCarousel from '../components/Localizacao'
 import Footer from '../components/Footer'
-import OpcaoCompra from '../components/Opçõescompra'
+import OpcaoCompra from '../components/Opcoescompra'
 
 
 export default function Home(){
