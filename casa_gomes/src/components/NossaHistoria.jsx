@@ -1,6 +1,10 @@
 import React from "react";
 import ExperienceCounter from "./ExperienceCounter.jsx";
+<<<<<<< HEAD
 import CardNossa from "./CardNossa.jsx";
+=======
+import CardNossa from "./cardNossa.jsx"
+>>>>>>> f280f4ede81d0338771850568276d20f63fbb826
 function NossaHistoria() {
   return (
     <>
