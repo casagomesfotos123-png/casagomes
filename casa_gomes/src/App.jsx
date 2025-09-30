@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
-import Product from "../../models/Product";
 import Login from "./pages/login";
 import Dashboard from "./pages/Dashboard";
 import "./App.css";
