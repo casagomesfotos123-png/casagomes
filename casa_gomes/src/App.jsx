@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
-import Login from "./pages/login";
+import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import "./App.css";
-import Produtos from "./pages/produtos";
+import Produtos from "./pages/Produtos";
 import AOS from "aos";
 import "aos/dist/aos.css"; // importante importar o CSS
 function ScrollToHash() {

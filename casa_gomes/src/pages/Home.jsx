@@ -1,10 +1,10 @@
 import Navbar from '../components/Navbar'
 import ContainerHero from "../components/Hero"
 import NossaHistoria from '../components/NossaHistoria'
-import Variedade from '../components/variedades'
-import MapasCarousel from '../components/localização'
+import Variedade from '../components/Variedades'
+import MapasCarousel from '../components/Localização'
 import Footer from '../components/Footer'
-import OpcaoCompra from '../components/opçõescompra'
+import OpcaoCompra from '../components/Opçõescompra'
 
 
 export default function Home(){
