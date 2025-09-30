@@ -45,13 +45,13 @@ export default function OpcaoCompra() {
             </p>
             <a
               className="bg-green-600 px-2.5 py-2 text-[.8em] rounded-[10px] text-white"
-              href="https://wa.me/21993702096"
+              href="https://wa.me/5521993702096"
             >
               Loja vila Emil
             </a>
             <a
               className="bg-green-600 px-2.5 py-2 text-[.8em] rounded-[10px] text-white"
-              href="https://wa.me/21996269425"
+              href="https://wa.me/5521996269425"
             >
               Loja Jucelino
             </a>

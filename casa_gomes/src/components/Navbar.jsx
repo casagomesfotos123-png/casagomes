@@ -43,8 +43,8 @@ function gerarLinkWhatsApp() {
   // define número da loja de acordo com a escolha
   const numeroLoja =
     lojaSelecionada === "jucelino"
-      ? "21996269425" // 👈 WhatsApp da Jucelino
-      : "21993702096"; // 👈 WhatsApp da Vila Emil
+      ? "5521996269425" // 👈 WhatsApp da Jucelino
+      : "5521993702096"; // 👈 WhatsApp da Vila Emil
 
   let mensagem = "Olá, quero finalizar minha compra:\n\n";
   carrinho.forEach((item) => {
