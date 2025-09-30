@@ -1,6 +1,6 @@
 import React from "react";
 import ExperienceCounter from "./ExperienceCounter.jsx";
-import CardNossa from "./Cardnossa.jsx"
+import CardNossa from "./cardNossa.jsx"
 function NossaHistoria() {
   return (
     <>
