@@ -1,0 +1,12 @@
+.hero_produtos::before {
+  content: "";
+  position: absolute;
+  inset: 0; 
+  background-image: url("../../public/logo_produto.jpg");
+  background-size:cover;      
+  background-position: center; 
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  filter: brightness(60%);
+  z-index: -1; 
+}

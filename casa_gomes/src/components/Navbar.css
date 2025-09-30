@@ -1,0 +1,21 @@
+@reference "tailwindcss";
+
+.nav_link .link{
+   @apply text-[1em] font-medium text-green-500 relative 
+}
+.nav_link .link::after {
+  content: "";
+  @apply absolute left-0 bottom-0 w-0 h-[2px] bg-green-500 transition-all duration-[.2s] ease-in;
+}
+
+.nav_link .link:hover::after {
+  @apply w-full;
+}
+
+.links_social .link{
+  @apply scale-[1] transition-all duration-[.5s] ease-in-out
+}
+
+.links_social .link:hover{
+     @apply scale-[1.2]
+}

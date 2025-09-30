@@ -1,0 +1,17 @@
+.container_variedade {
+  position: relative; /* garante que ::before fique dentro */
+  z-index: 0;
+}
+
+.container_variedade::before {
+  content: "";
+  position: absolute;
+  inset: 0; /* 👈 faltava isso */
+  background-image: url("/variedade-bg.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  filter: brightness(40%);
+  z-index: -1;
+}
