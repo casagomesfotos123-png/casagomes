@@ -143,7 +143,7 @@ function gerarLinkWhatsApp() {
       </nav>
 {/* Drawer do Carrinho */}
 <div
-  className={`fixed top-[5%] md:top-[66px] right-0 min-h-[100vh] w-80 bg-white text-black shadow-xl p-6 transform transition-transform duration-300 z-[9000] ${
+  className={`fixed top-[6.5%] md:top-[66px] right-0 min-h-[100vh] w-[80vw] bg-white text-black shadow-xl p-6 transform transition-transform duration-300 z-[9000] ${
     showCart ? "translate-x-0" : "translate-x-full"
   }`}
 >

@@ -155,11 +155,11 @@ export default function Produtos() {
 
           {/* Lista de Produtos */}
           {/* Lista de Produtos */}
-<section className="max-w-6xl mx-auto py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 justify-items-center min-h=[100vh]">
+<section className="max-w-6xl mx-auto py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 justify-items-center min-h-[100vh]">
   {produtos.map((p) => (
     <div
       key={p._id}
-      className={`bg-white rounded-xl w-[320px] md:w-[350px] shadow-md overflow-hidden hover:shadow-lg transition flex flex-row ${
+      className={`bg-white rounded-xl w-[300px] md:w-[350px] shadow-md overflow-hidden hover:shadow-lg transition flex flex-row ${
         p.Ativo === "n" ? "opacity-60" : ""
       }`}
     >
