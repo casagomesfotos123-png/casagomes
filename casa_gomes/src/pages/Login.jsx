@@ -15,7 +15,7 @@ export default function Login() {
       window.location.href = "/dashboard";
     } catch (err) {
       console.error(err);
-      setErro("Usuário ou senha inválidos");
+      setErro(err.response?.data?.message || "Falha no login");
     }
   }
 
