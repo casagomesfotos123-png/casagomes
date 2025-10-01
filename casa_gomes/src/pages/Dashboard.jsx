@@ -397,6 +397,19 @@ export default function Dashboard() {
                 <span>Ativo (Jucelino)</span>
               </label>
 
+              {/* Checkbox Jucelino */}
+<label className="flex items-center gap-2 mb-4">
+  <input
+    type="checkbox"
+    checked={form.Jucelino === "s"}
+    onChange={(e) =>
+      setForm({ ...form, Jucelino: e.target.checked ? "s" : "n" })
+    }
+    className="w-5 h-5 cursor-pointer"
+  />
+  <span>Jucelino</span>
+</label>
+
               {/* Checkbox Principais */}
               <label className="flex items-center gap-2 mb-4">
                 <input
