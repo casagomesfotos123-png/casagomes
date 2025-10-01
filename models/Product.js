@@ -8,8 +8,10 @@ const productSchema = new mongoose.Schema({
   PrecoPauta: Number,
   PrecoVenda: Number,
   Imagem: String,
-  Jucelino: {type: String},
-  Ativo: { type: String}
+  Ativo: { type: String, default: "s" },        // Vila Emil
+  Jucelino: { type: String, default: "n" },     // Loja Jucelino
+  AtivoJucelino: { type: String, default: "n" },// Novo campo
+  Principais: { type: String, default: "n" },   // Destaque principal
 }, { collection: "produto" });
 
 export default mongoose.model("Produtos", productSchema);

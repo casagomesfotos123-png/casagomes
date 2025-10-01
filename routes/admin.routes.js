@@ -76,13 +76,16 @@ router.post("/products", auth, isAdmin, upload.single("Imagem"), async (req, res
     }
 
     const novo = await Product.create({
-      Descricao: req.body.Descricao,
-      PrecoVenda: Number(req.body.PrecoVenda) || 0,
-      Grupo: req.body.Grupo || "",
-      Ativo: req.body.Ativo === "s" ? "s" : "n",
-      Jucelino: req.body.Jucelino === "s" ? "s" : "n",
-      Imagem: imagemUrl || ""
-    });
+  Descricao: req.body.Descricao,
+  PrecoVenda: Number(req.body.PrecoVenda) || 0,
+  Grupo: req.body.Grupo || "",
+  Ativo: req.body.Ativo === "s" ? "s" : "n",
+  Jucelino: req.body.Jucelino === "s" ? "s" : "n",
+  AtivoJucelino: req.body.AtivoJucelino === "s" ? "s" : "n",
+  Principais: req.body.Principais === "s" ? "s" : "n",
+  Imagem: imagemUrl || ""
+});
+
 
     res.status(201).json(novo);
   } catch (err) {
@@ -96,13 +99,16 @@ router.post("/products", auth, isAdmin, upload.single("Imagem"), async (req, res
  */
 router.put("/products/:id", auth, isAdmin, upload.single("Imagem"), async (req, res) => {
   try {
-    const data = {
-      Descricao: req.body.Descricao,
-      PrecoVenda: Number(req.body.PrecoVenda) || 0,
-      Grupo: req.body.Grupo || "",
-      Ativo: req.body.Ativo === "s" ? "s" : "n",
-      Jucelino: req.body.Jucelino === "s" ? "s" : "n",
-    };
+   const data = {
+  Descricao: req.body.Descricao,
+  PrecoVenda: Number(req.body.PrecoVenda) || 0,
+  Grupo: req.body.Grupo || "",
+  Ativo: req.body.Ativo === "s" ? "s" : "n",
+  Jucelino: req.body.Jucelino === "s" ? "s" : "n",
+  AtivoJucelino: req.body.AtivoJucelino === "s" ? "s" : "n",
+  Principais: req.body.Principais === "s" ? "s" : "n",
+};
+
 
     if (req.file) {
       const base64 = `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`;

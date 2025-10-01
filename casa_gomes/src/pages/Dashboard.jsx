@@ -11,8 +11,10 @@ export default function Dashboard() {
     PrecoVenda: 0,
     Imagem: null,
     Grupo: "",
-    Ativo: "s", // padrão ativo
-    Jucelino: "n", // padrão não
+    Ativo: "s",
+    Jucelino: "n",
+    AtivoJucelino: "n", // novo campo
+    Principais: "n", // novo campo
   });
   const [editId, setEditId] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -43,35 +45,40 @@ export default function Dashboard() {
     carregarGrupos();
   }, []);
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    const fd = new FormData();
-    fd.append("Descricao", form.Descricao);
-    fd.append("PrecoVenda", form.PrecoVenda);
-    fd.append("Grupo", form.Grupo);
-    fd.append("Ativo", form.Ativo);
-    fd.append("Jucelino", form.Jucelino);
-    if (form.Imagem) fd.append("Imagem", form.Imagem);
+ async function handleSubmit(e) {
+  e.preventDefault();
+  const fd = new FormData();
+  fd.append("Descricao", form.Descricao);
+  fd.append("PrecoVenda", form.PrecoVenda);
+  fd.append("Grupo", form.Grupo);
+  fd.append("Ativo", form.Ativo);
+  fd.append("Jucelino", form.Jucelino);
+  fd.append("AtivoJucelino", form.AtivoJucelino); // 🔹 enviar novo campo
+  fd.append("Principais", form.Principais);       // 🔹 enviar novo campo
+  if (form.Imagem) fd.append("Imagem", form.Imagem);
 
-    if (editId) {
-      await API.put(`/api/admin/products/${editId}`, fd);
-    } else {
-      await API.post("/api/admin/products", fd);
-    }
-
-    setForm({
-      Descricao: "",
-      PrecoVenda: 0,
-      Imagem: null,
-      Grupo: "",
-      Ativo: "s",
-      Jucelino: "n",
-    });
-    setPreview(null);
-    setEditId(null);
-    setShowModal(false);
-    carregarProdutos(page, search, grupoSelecionado);
+  if (editId) {
+    await API.put(`/api/admin/products/${editId}`, fd);
+  } else {
+    await API.post("/api/admin/products", fd);
   }
+
+  setForm({
+    Descricao: "",
+    PrecoVenda: 0,
+    Imagem: null,
+    Grupo: "",
+    Ativo: "s",
+    Jucelino: "n",
+    AtivoJucelino: "n", // reset novo campo
+    Principais: "n",    // reset novo campo
+  });
+  setPreview(null);
+  setEditId(null);
+  setShowModal(false);
+  carregarProdutos(page, search, grupoSelecionado);
+}
+
 
   async function handleDeleteConfirm() {
     if (confirmDeleteId) {
@@ -87,31 +94,36 @@ export default function Dashboard() {
   }
 
   function abrirModal(produto = null) {
-    if (produto) {
-      setEditId(produto._id);
-      setForm({
-        Descricao: produto.Descricao,
-        PrecoVenda: produto.PrecoVenda,
-        Imagem: null,
-        Grupo: produto.Grupo || "",
-        Ativo: produto.Ativo || "s",
-        Jucelino: produto.Jucelino || "n",
-      });
-      setPreview(produto.Imagem || null);
-    } else {
-      setEditId(null);
-      setForm({
-        Descricao: "",
-        PrecoVenda: 0,
-        Imagem: null,
-        Grupo: "",
-        Ativo: "s",
-        Jucelino: "n",
-      });
-      setPreview(null);
-    }
-    setShowModal(true);
+  if (produto) {
+    setEditId(produto._id);
+    setForm({
+      Descricao: produto.Descricao,
+      PrecoVenda: produto.PrecoVenda,
+      Imagem: null,
+      Grupo: produto.Grupo || "",
+      Ativo: produto.Ativo || "s",
+      Jucelino: produto.Jucelino || "n",
+      AtivoJucelino: produto.AtivoJucelino || "n", // 🔹 puxar campo do banco
+      Principais: produto.Principais || "n",       // 🔹 puxar campo do banco
+    });
+    setPreview(produto.Imagem || null);
+  } else {
+    setEditId(null);
+    setForm({
+      Descricao: "",
+      PrecoVenda: 0,
+      Imagem: null,
+      Grupo: "",
+      Ativo: "s",
+      Jucelino: "n",
+      AtivoJucelino: "n", // reset
+      Principais: "n",    // reset
+    });
+    setPreview(null);
   }
+  setShowModal(true);
+}
+
 
   function handleFileChange(e) {
     const file = e.target.files[0];
@@ -132,7 +144,7 @@ export default function Dashboard() {
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between mb-8">
         <h1 className="text-4xl font-bold mb-5 text-gray-800">
-          📦 Dashboard de Produtos
+          📦 Painel de Produtos
         </h1>
         <div className="flex gap-4">
           <button
@@ -188,7 +200,9 @@ export default function Dashboard() {
               <th className="px-4 py-2">Descrição</th>
               <th className="px-4 py-2">Preço</th>
               <th className="px-4 py-2">Grupo</th>
-              <th className="px-4 py-2">Ativo</th>
+              <th className="px-4 py-2">Ativo Vila Emil</th>
+              <th className="px-4 py-2">Ativo Jucelino</th>
+              <th className="px-4 py-2">Principal</th>
               <th className="px-4 py-2">Jucelino</th>
               <th className="px-4 py-2">Ações</th>
             </tr>
@@ -213,7 +227,11 @@ export default function Dashboard() {
                 </td>
                 <td className="px-4 py-2">{p.Grupo}</td>
                 <td className="px-4 py-2">{p.Ativo === "s" ? "Sim" : "Não"}</td>
-                <td className="px-4 py-2">{p.Jucelino === "s" ? "Sim" : "Não"}</td>
+                <td className="px-4 py-2">{p.AtivoJucelino === "s" ? "Sim" : "Não"}</td>
+                <td className="px-4 py-2">{p.Principais === "s" ? "Sim" : "Não"}</td>
+                <td className="px-4 py-2">
+                  {p.Jucelino === "s" ? "Sim" : "Não"}
+                </td>
                 <td className="px-4 py-2 flex gap-2">
                   <button
                     onClick={() => abrirModal(p)}
@@ -294,7 +312,9 @@ export default function Dashboard() {
           <>
             {page < totalPages - 3 && <span className="px-2">...</span>}
             <button
-              onClick={() => carregarProdutos(totalPages, search, grupoSelecionado)}
+              onClick={() =>
+                carregarProdutos(totalPages, search, grupoSelecionado)
+              }
               className={`px-3 py-1 rounded text-[.9em] ${
                 page === totalPages
                   ? "bg-blue-600 text-white"
@@ -350,31 +370,47 @@ export default function Dashboard() {
                 className="w-full border rounded-lg px-3 py-2 mb-4 focus:ring-2 focus:ring-blue-500"
               />
 
-             {/* Checkbox Ativo */}
-<label className="flex items-center gap-2 mb-4">
-  <input
-    type="checkbox"
-    checked={form.Ativo === "s"}
-    onChange={(e) =>
-      setForm({ ...form, Ativo: e.target.checked ? "s" : "n" })
-    }
-    className="w-5 h-5 cursor-pointer"
-  />
-  <span>Ativo</span>
-</label>
+              {/* Checkbox Ativo Vila Emil */}
+              <label className="flex items-center gap-2 mb-4">
+                <input
+                  type="checkbox"
+                  checked={form.Ativo === "s"}
+                  onChange={(e) =>
+                    setForm({ ...form, Ativo: e.target.checked ? "s" : "n" })
+                  }
+                />
+                <span>Ativo (Vila Emil)</span>
+              </label>
 
-{/* Checkbox Jucelino */}
-<label className="flex items-center gap-2 mb-4">
-  <input
-    type="checkbox"
-    checked={form.Jucelino === "s"}
-    onChange={(e) =>
-      setForm({ ...form, Jucelino: e.target.checked ? "s" : "n" })
-    }
-    className="w-5 h-5 cursor-pointer"
-  />
-  <span>Jucelino</span>
-</label>
+              {/* Checkbox Ativo Jucelino */}
+              <label className="flex items-center gap-2 mb-4">
+                <input
+                  type="checkbox"
+                  checked={form.AtivoJucelino === "s"}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      AtivoJucelino: e.target.checked ? "s" : "n",
+                    })
+                  }
+                />
+                <span>Ativo (Jucelino)</span>
+              </label>
+
+              {/* Checkbox Principais */}
+              <label className="flex items-center gap-2 mb-4">
+                <input
+                  type="checkbox"
+                  checked={form.Principais === "s"}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      Principais: e.target.checked ? "s" : "n",
+                    })
+                  }
+                />
+                <span>Produto Principal</span>
+              </label>
 
               <input
                 type="file"
@@ -416,33 +452,34 @@ export default function Dashboard() {
       )}
 
       {/* Modal de Confirmação de Exclusão */}
-{confirmDeleteId && (
-  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-    <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm">
-      <h2 className="text-xl font-semibold mb-4 text-gray-800">
-        ⚠️ Confirmar Exclusão
-      </h2>
-      <p className="text-gray-600 mb-6">
-        Tem certeza que deseja excluir este produto? Esta ação não poderá ser desfeita.
-      </p>
+      {confirmDeleteId && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800">
+              ⚠️ Confirmar Exclusão
+            </h2>
+            <p className="text-gray-600 mb-6">
+              Tem certeza que deseja excluir este produto? Esta ação não poderá
+              ser desfeita.
+            </p>
 
-      <div className="flex justify-end gap-3">
-        <button
-          onClick={() => setConfirmDeleteId(null)}
-          className="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition"
-        >
-          Cancelar
-        </button>
-        <button
-          onClick={handleDeleteConfirm}
-          className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition"
-        >
-          Excluir
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setConfirmDeleteId(null)}
+                className="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleDeleteConfirm}
+                className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition"
+              >
+                Excluir
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

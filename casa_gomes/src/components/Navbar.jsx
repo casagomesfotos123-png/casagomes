@@ -48,7 +48,7 @@ function gerarLinkWhatsApp() {
 
   let mensagem = "Olá, quero finalizar minha compra:\n\n";
   carrinho.forEach((item) => {
-    mensagem += `• ${item.quantidade}x ${item.Descricao}`;
+    mensagem += `• ${item.quantidade} ${item.unidade} x ${item.Descricao}`;
   });
 
   return `https://wa.me/${numeroLoja}?text=${encodeURIComponent(mensagem)}`;
@@ -143,7 +143,7 @@ function gerarLinkWhatsApp() {
       </nav>
 {/* Drawer do Carrinho */}
 <div
-  className={`fixed top-[6.5%] md:top-[66px] right-0 min-h-[100vh] w-[80vw] bg-white text-black shadow-xl p-6 transform transition-transform duration-300 z-[9000] ${
+  className={`fixed top-[6.5%] md:top-[66px] right-0 min-h-[100vh] w-[80vw] md:w-[30%] bg-white text-black shadow-xl p-6 transform transition-transform duration-300 z-[9000] ${
     showCart ? "translate-x-0" : "translate-x-full"
   }`}
 >
