@@ -45,40 +45,39 @@ export default function Dashboard() {
     carregarGrupos();
   }, []);
 
- async function handleSubmit(e) {
-  e.preventDefault();
-  const fd = new FormData();
-  fd.append("Descricao", form.Descricao);
-  fd.append("PrecoVenda", form.PrecoVenda);
-  fd.append("Grupo", form.Grupo);
-  fd.append("Ativo", form.Ativo);
-  fd.append("Jucelino", form.Jucelino);
-  fd.append("AtivoJucelino", form.AtivoJucelino); // 🔹 enviar novo campo
-  fd.append("Principais", form.Principais);       // 🔹 enviar novo campo
-  if (form.Imagem) fd.append("Imagem", form.Imagem);
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const fd = new FormData();
+    fd.append("Descricao", form.Descricao);
+    fd.append("PrecoVenda", form.PrecoVenda);
+    fd.append("Grupo", form.Grupo);
+    fd.append("Ativo", form.Ativo);
+    fd.append("Jucelino", form.Jucelino);
+    fd.append("AtivoJucelino", form.AtivoJucelino); // 🔹 enviar novo campo
+    fd.append("Principais", form.Principais); // 🔹 enviar novo campo
+    if (form.Imagem) fd.append("Imagem", form.Imagem);
 
-  if (editId) {
-    await API.put(`/api/admin/products/${editId}`, fd);
-  } else {
-    await API.post("/api/admin/products", fd);
+    if (editId) {
+      await API.put(`/api/admin/products/${editId}`, fd);
+    } else {
+      await API.post("/api/admin/products", fd);
+    }
+
+    setForm({
+      Descricao: "",
+      PrecoVenda: 0,
+      Imagem: null,
+      Grupo: "",
+      Ativo: "s",
+      Jucelino: "n",
+      AtivoJucelino: "n", // reset novo campo
+      Principais: "n", // reset novo campo
+    });
+    setPreview(null);
+    setEditId(null);
+    setShowModal(false);
+    carregarProdutos(page, search, grupoSelecionado);
   }
-
-  setForm({
-    Descricao: "",
-    PrecoVenda: 0,
-    Imagem: null,
-    Grupo: "",
-    Ativo: "s",
-    Jucelino: "n",
-    AtivoJucelino: "n", // reset novo campo
-    Principais: "n",    // reset novo campo
-  });
-  setPreview(null);
-  setEditId(null);
-  setShowModal(false);
-  carregarProdutos(page, search, grupoSelecionado);
-}
-
 
   async function handleDeleteConfirm() {
     if (confirmDeleteId) {
@@ -94,36 +93,35 @@ export default function Dashboard() {
   }
 
   function abrirModal(produto = null) {
-  if (produto) {
-    setEditId(produto._id);
-    setForm({
-      Descricao: produto.Descricao,
-      PrecoVenda: produto.PrecoVenda,
-      Imagem: null,
-      Grupo: produto.Grupo || "",
-      Ativo: produto.Ativo || "s",
-      Jucelino: produto.Jucelino || "n",
-      AtivoJucelino: produto.AtivoJucelino || "n", // 🔹 puxar campo do banco
-      Principais: produto.Principais || "n",       // 🔹 puxar campo do banco
-    });
-    setPreview(produto.Imagem || null);
-  } else {
-    setEditId(null);
-    setForm({
-      Descricao: "",
-      PrecoVenda: 0,
-      Imagem: null,
-      Grupo: "",
-      Ativo: "s",
-      Jucelino: "n",
-      AtivoJucelino: "n", // reset
-      Principais: "n",    // reset
-    });
-    setPreview(null);
+    if (produto) {
+      setEditId(produto._id);
+      setForm({
+        Descricao: produto.Descricao,
+        PrecoVenda: produto.PrecoVenda,
+        Imagem: null,
+        Grupo: produto.Grupo || "",
+        Ativo: produto.Ativo || "s",
+        Jucelino: produto.Jucelino || "n",
+        AtivoJucelino: produto.AtivoJucelino || "n", // 🔹 puxar campo do banco
+        Principais: produto.Principais || "n", // 🔹 puxar campo do banco
+      });
+      setPreview(produto.Imagem || null);
+    } else {
+      setEditId(null);
+      setForm({
+        Descricao: "",
+        PrecoVenda: 0,
+        Imagem: null,
+        Grupo: "",
+        Ativo: "s",
+        Jucelino: "n",
+        AtivoJucelino: "n", // reset
+        Principais: "n", // reset
+      });
+      setPreview(null);
+    }
+    setShowModal(true);
   }
-  setShowModal(true);
-}
-
 
   function handleFileChange(e) {
     const file = e.target.files[0];
@@ -222,13 +220,20 @@ export default function Dashboard() {
                   )}
                 </td>
                 <td className="px-4 py-2 font-medium">{p.Descricao}</td>
-                <td className="px-4 py-2 text-green-600 font-semibold">
-                  R$ {p.PrecoVenda}
-                </td>
+              <td className="px-4 py-2 text-green-600 font-semibold">
+  {Number(p.PrecoVenda).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL"
+  })}
+</td>
                 <td className="px-4 py-2">{p.Grupo}</td>
                 <td className="px-4 py-2">{p.Ativo === "s" ? "Sim" : "Não"}</td>
-                <td className="px-4 py-2">{p.AtivoJucelino === "s" ? "Sim" : "Não"}</td>
-                <td className="px-4 py-2">{p.Principais === "s" ? "Sim" : "Não"}</td>
+                <td className="px-4 py-2">
+                  {p.AtivoJucelino === "s" ? "Sim" : "Não"}
+                </td>
+                <td className="px-4 py-2">
+                  {p.Principais === "s" ? "Sim" : "Não"}
+                </td>
                 <td className="px-4 py-2">
                   {p.Jucelino === "s" ? "Sim" : "Não"}
                 </td>
@@ -355,20 +360,34 @@ export default function Dashboard() {
               />
               <input
                 type="number"
+                step="0.01"
                 placeholder="Preço"
                 value={form.PrecoVenda}
                 onChange={(e) =>
                   setForm({ ...form, PrecoVenda: e.target.value })
                 }
-                className="w-full border rounded-lg px-3 py-2 mb-4 focus:ring-2 focus:ring-blue-500"
+                onBlur={(e) =>
+                  setForm({
+                    ...form,
+                    PrecoVenda: parseFloat(e.target.value || 0).toFixed(2),
+                  })
+                }
+                className="w-full border rounded-lg px-3 py-2 mb-4"
               />
 
-              <input
-                placeholder="Grupo"
+              {/* 🔹 Select de Grupos */}
+              <select
                 value={form.Grupo}
                 onChange={(e) => setForm({ ...form, Grupo: e.target.value })}
                 className="w-full border rounded-lg px-3 py-2 mb-4 focus:ring-2 focus:ring-blue-500"
-              />
+              >
+                <option value="">Selecione um grupo</option>
+                {grupos.map((g, i) => (
+                  <option key={i} value={g}>
+                    {g}
+                  </option>
+                ))}
+              </select>
 
               {/* Checkbox Ativo Vila Emil */}
               <label className="flex items-center gap-2 mb-4">
@@ -398,17 +417,17 @@ export default function Dashboard() {
               </label>
 
               {/* Checkbox Jucelino */}
-<label className="flex items-center gap-2 mb-4">
-  <input
-    type="checkbox"
-    checked={form.Jucelino === "s"}
-    onChange={(e) =>
-      setForm({ ...form, Jucelino: e.target.checked ? "s" : "n" })
-    }
-    className="w-5 h-5 cursor-pointer"
-  />
-  <span>Jucelino</span>
-</label>
+              <label className="flex items-center gap-2 mb-4">
+                <input
+                  type="checkbox"
+                  checked={form.Jucelino === "s"}
+                  onChange={(e) =>
+                    setForm({ ...form, Jucelino: e.target.checked ? "s" : "n" })
+                  }
+                  className="w-5 h-5 cursor-pointer"
+                />
+                <span>Jucelino</span>
+              </label>
 
               {/* Checkbox Principais */}
               <label className="flex items-center gap-2 mb-4">

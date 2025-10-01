@@ -19,7 +19,12 @@ export default function Produtos() {
   const [unidade, setUnidade] = useState("unidade");
 
   // 🔹 Carregar produtos
-  async function carregarProdutos(p = page, s = search, g = grupoSelecionado, j = jucelino) {
+  async function carregarProdutos(
+    p = page,
+    s = search,
+    g = grupoSelecionado,
+    j = jucelino
+  ) {
     try {
       const { data } = await API.get(
         `/api/products?page=${p}&limit=12&search=${s}&grupo=${g}&jucelino=${j}`
@@ -66,8 +71,7 @@ export default function Produtos() {
     const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
 
     const existente = carrinho.find(
-      (item) =>
-        item._id === produtoSelecionado._id && item.unidade === unidade
+      (item) => item._id === produtoSelecionado._id && item.unidade === unidade
     );
 
     if (existente) {
@@ -109,12 +113,12 @@ export default function Produtos() {
             {/* Busca */}
             <div>
               <input
-              type="text"
-              placeholder="Buscar produto..."
-              value={search}
-              onChange={handleSearch}
-              className="flex-1 border px-4 py-2 w-[250px] rounded-lg shadow-sm cursor-pointer text-[.8em] text-gray-600"
-            />
+                type="text"
+                placeholder="Buscar produto..."
+                value={search}
+                onChange={handleSearch}
+                className="flex-1 border px-4 py-2 w-[250px] rounded-lg shadow-sm cursor-pointer text-[.8em] text-gray-600"
+              />
             </div>
 
             {/* Filtro de categorias */}
@@ -133,84 +137,96 @@ export default function Produtos() {
                 </option>
               ))}
             </select>
-{/* Botão de Localidade (apenas Jucelino como toggle) */}
-<div className="flex gap-2">
- <button
-  onClick={() => {
-    const novaLoja = jucelino === "s" ? "emil" : "jucelino"; // alterna
-    setJucelino(jucelino === "s" ? "" : "s"); // "" mostra tudo (emil), "s" = só Jucelino
-    localStorage.setItem("lojaSelecionada", novaLoja); // salva no localStorage
-    carregarProdutos(1, search, grupoSelecionado, jucelino === "s" ? "" : "s");
-  }}
-  className={`px-3 py-2 rounded-lg text-[.8em] cursor-pointer ${
-    jucelino === "s"
-      ? "bg-green-600 text-white"
-      : "bg-gray-200 hover:bg-gray-300"
-  }`}
->
-  Jucelino
-</button>
-</div>
+            {/* Botão de Localidade (apenas Jucelino como toggle) */}
+            <div className="flex gap-2">
+              <button
+                onClick={() => {
+                  const novaLoja = jucelino === "s" ? "emil" : "jucelino"; // alterna
+                  setJucelino(jucelino === "s" ? "" : "s"); // "" mostra tudo (emil), "s" = só Jucelino
+                  localStorage.setItem("lojaSelecionada", novaLoja); // salva no localStorage
+                  carregarProdutos(
+                    1,
+                    search,
+                    grupoSelecionado,
+                    jucelino === "s" ? "" : "s"
+                  );
+                }}
+                className={`px-3 py-2 rounded-lg text-[.8em] cursor-pointer ${
+                  jucelino === "s"
+                    ? "bg-green-600 text-white"
+                    : "bg-gray-200 hover:bg-gray-300"
+                }`}
+              >
+                Jucelino
+              </button>
+            </div>
           </div>
 
           {/* Lista de Produtos */}
           {/* Lista de Produtos */}
-<section className="max-w-6xl mx-auto py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 justify-items-center min-h-[100vh]">
-  {produtos.map((p) => (
-    <div
-      key={p._id}
-      className={`bg-white rounded-xl w-[300px] md:w-[350px] shadow-md overflow-hidden hover:shadow-lg transition flex flex-row ${
-        p.Ativo === "n" ? "opacity-60" : ""
-      }`}
-    >
-      {/* Imagem */}
-      {p.Imagem ? (
-        <img
-          src={p.Imagem}
-          alt={p.Descricao}
-          className="h-[100px] w-[100px] object-cover"
-        />
-      ) : (
-        <div className="h-[100px] w-[100px] flex items-center justify-center bg-gray-200 text-gray-500 italic">
-          Sem imagem
-        </div>
-      )}
+          <section className="max-w-6xl mx-auto py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 justify-items-center min-h-[100vh]">
+            {produtos.map((p) => (
+              <div
+                key={p._id}
+                className={`bg-white rounded-xl w-[300px] md:w-[350px] shadow-md overflow-hidden hover:shadow-lg transition flex flex-row ${
+                  p.Ativo === "n" ? "opacity-60" : ""
+                }`}
+              >
+                {/* Imagem */}
+                {p.Imagem ? (
+                  <img
+                    src={p.Imagem}
+                    alt={p.Descricao}
+                    className="h-[100px] w-[100px] object-cover"
+                  />
+                ) : (
+                  <div className="h-[100px] w-[100px] flex items-center justify-center bg-gray-200 text-gray-500 italic">
+                    Sem imagem
+                  </div>
+                )}
 
-      {/* Infos */}
-      <div className="p-4 flex flex-col text-left flex-1 justify-between">
-        <h2 className="text-[1em] font-semibold text-gray-800 mb-2 line-clamp-2">
-          {p.Descricao}
-        </h2>
-        <p className="text-green-600 font-medium text-[1em] mb-4">
-          R$ {p.PrecoVenda.toFixed(2)}
-        </p>
+                {/* Infos */}
+                <div className="p-4 flex flex-col text-left flex-1 justify-between">
+                  <h2 className="text-[1em] font-semibold text-gray-800 mb-2 line-clamp-2">
+                    {p.Descricao}
+                  </h2>
+                  <p className="text-green-600 font-medium text-[1em] mb-4">
+                    {Number(p.PrecoVenda).toLocaleString("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    })}
+                  </p>
 
-        {p.Ativo === "n" ? (
-          <span className="text-red-500 font-semibold">Indisponível</span>
-        ) : (
-          <button
-            onClick={() => abrirModal(p)}
-            className="bg-green-600 text-white text-[.9em] py-2 px-2 rounded-lg hover:bg-green-700 transition"
-          >
-            Adicionar ao Carrinho
-          </button>
-        )}
-      </div>
-    </div>
-  ))}
+                  {p.Ativo === "n" ? (
+                    <span className="text-red-500 font-semibold">
+                      Indisponível
+                    </span>
+                  ) : (
+                    <button
+                      onClick={() => abrirModal(p)}
+                      className="bg-green-600 text-white text-[.9em] py-2 px-2 rounded-lg hover:bg-green-700 transition"
+                    >
+                      Adicionar ao Carrinho
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
 
-  {produtos.length === 0 && (
-    <p className="col-span-full text-center text-gray-500 text-lg">
-      Nenhum produto encontrado.
-    </p>
-  )}
-</section>
+            {produtos.length === 0 && (
+              <p className="col-span-full text-center text-gray-500 text-lg">
+                Nenhum produto encontrado.
+              </p>
+            )}
+          </section>
           {/* Paginação */}
           {totalPages > 1 && (
             <div className="flex justify-center items-center gap-2 pb-12">
               <button
                 disabled={page === 1}
-                onClick={() => carregarProdutos(page - 1, search, grupoSelecionado, jucelino)}
+                onClick={() =>
+                  carregarProdutos(page - 1, search, grupoSelecionado, jucelino)
+                }
                 className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
               >
                 ←
@@ -219,7 +235,9 @@ export default function Produtos() {
               {page > 3 && (
                 <>
                   <button
-                    onClick={() => carregarProdutos(1, search, grupoSelecionado, jucelino)}
+                    onClick={() =>
+                      carregarProdutos(1, search, grupoSelecionado, jucelino)
+                    }
                     className={`px-3 py-1 rounded ${
                       page === 1
                         ? "bg-green-600 text-white"
@@ -237,7 +255,9 @@ export default function Produtos() {
                 .map((pNum) => (
                   <button
                     key={pNum}
-                    onClick={() => carregarProdutos(pNum, search, grupoSelecionado, jucelino)}
+                    onClick={() =>
+                      carregarProdutos(pNum, search, grupoSelecionado, jucelino)
+                    }
                     className={`px-3 py-1 rounded ${
                       page === pNum
                         ? "bg-green-600 text-white"
@@ -252,7 +272,14 @@ export default function Produtos() {
                 <>
                   {page < totalPages - 3 && <span className="px-2">...</span>}
                   <button
-                    onClick={() => carregarProdutos(totalPages, search, grupoSelecionado, jucelino)}
+                    onClick={() =>
+                      carregarProdutos(
+                        totalPages,
+                        search,
+                        grupoSelecionado,
+                        jucelino
+                      )
+                    }
                     className={`px-3 py-1 rounded ${
                       page === totalPages
                         ? "bg-green-600 text-white"
@@ -266,7 +293,9 @@ export default function Produtos() {
 
               <button
                 disabled={page === totalPages}
-                onClick={() => carregarProdutos(page + 1, search, grupoSelecionado, jucelino)}
+                onClick={() =>
+                  carregarProdutos(page + 1, search, grupoSelecionado, jucelino)
+                }
                 className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
               >
                 →
@@ -280,7 +309,9 @@ export default function Produtos() {
       {showModal && produtoSelecionado && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[3000]">
           <div className="bg-white text-black rounded-lg shadow-lg p-6 w-full max-w-sm">
-            <h2 className="text-xl font-semibold mb-4">Adicionar ao Carrinho</h2>
+            <h2 className="text-xl font-semibold mb-4">
+              Adicionar ao Carrinho
+            </h2>
             <div className="flex items-center gap-4">
               <img
                 src={produtoSelecionado.Imagem}
