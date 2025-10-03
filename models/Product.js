@@ -7,6 +7,7 @@ const productSchema = new mongoose.Schema({
   Grupo: String,
   PrecoPauta: Number,
   PrecoVenda: Number,
+  DescricaoProduto: String,
   Imagem: String,
   Ativo: { type: String, default: "s" },        // Vila Emil
   Jucelino: { type: String, default: "n" },     // Loja Jucelino

@@ -83,7 +83,8 @@ router.post("/products", auth, isAdmin, upload.single("Imagem"), async (req, res
   Jucelino: req.body.Jucelino === "s" ? "s" : "n",
   AtivoJucelino: req.body.AtivoJucelino === "s" ? "s" : "n",
   Principais: req.body.Principais === "s" ? "s" : "n",
-  Imagem: imagemUrl || ""
+  Imagem: imagemUrl || "",
+  DescricaoProduto:req.body.DescricaoProduto || ""
 });
 
 
@@ -107,6 +108,7 @@ router.put("/products/:id", auth, isAdmin, upload.single("Imagem"), async (req, 
   Jucelino: req.body.Jucelino === "s" ? "s" : "n",
   AtivoJucelino: req.body.AtivoJucelino === "s" ? "s" : "n",
   Principais: req.body.Principais === "s" ? "s" : "n",
+  DescricaoProduto: req.body.DescricaoProduto || ""
 };
 
 
