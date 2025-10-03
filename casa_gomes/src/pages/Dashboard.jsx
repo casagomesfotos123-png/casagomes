@@ -232,7 +232,7 @@ export default function Dashboard() {
                     currency: "BRL",
                   })}
                 </td>
-                  <td className="px-4 py-2 font-medium">{p.DescricaoProduto}</td>
+                <td className="px-4 py-2  font-medium"><p className="w-[25ch] h-[40px] text-[.8em] overflow-auto break-words whitespace-pre-line">{p.DescricaoProduto}</p></td>
                 <td className="px-4 py-2">{p.Grupo}</td>
                 <td className="px-4 py-2">{p.Ativo === "s" ? "Sim" : "Não"}</td>
                 <td className="px-4 py-2">

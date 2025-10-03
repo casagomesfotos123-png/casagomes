@@ -190,6 +190,9 @@ export default function Produtos() {
                   <h2 className="text-[1em] font-semibold text-gray-800 mb-2 line-clamp-2">
                     {p.Descricao}
                   </h2>
+                  <p className="w-[25ch] h-[40px] text-[.8em] overflow-auto break-words whitespace-pre-line">
+                    {p.DescricaoProduto}
+                  </p>
                   <p className="text-green-600 font-medium text-[1em] mb-4">
                     {Number(p.PrecoVenda).toLocaleString("pt-BR", {
                       style: "currency",
@@ -320,6 +323,7 @@ export default function Produtos() {
               />
               <div>
                 <p className="font-semibold">{produtoSelecionado.Descricao}</p>
+
                 <p className="text-green-600 font-bold">
                   R$ {produtoSelecionado.PrecoVenda.toFixed(2)}
                 </p>
