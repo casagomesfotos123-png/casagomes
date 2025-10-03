@@ -15,6 +15,7 @@ export default function Dashboard() {
     Jucelino: "n",
     AtivoJucelino: "n", // novo campo
     Principais: "n", // novo campo
+    DescricaoProduto: "",
   });
   const [editId, setEditId] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -52,6 +53,7 @@ export default function Dashboard() {
     fd.append("PrecoVenda", form.PrecoVenda);
     fd.append("Grupo", form.Grupo);
     fd.append("Ativo", form.Ativo);
+    fd.append("DescricaoProduto", form.DescricaoProduto);
     fd.append("Jucelino", form.Jucelino);
     fd.append("AtivoJucelino", form.AtivoJucelino); // 🔹 enviar novo campo
     fd.append("Principais", form.Principais); // 🔹 enviar novo campo
@@ -72,6 +74,7 @@ export default function Dashboard() {
       Jucelino: "n",
       AtivoJucelino: "n", // reset novo campo
       Principais: "n", // reset novo campo
+      DescricaoProduto: "",
     });
     setPreview(null);
     setEditId(null);
@@ -104,6 +107,7 @@ export default function Dashboard() {
         Jucelino: produto.Jucelino || "n",
         AtivoJucelino: produto.AtivoJucelino || "n", // 🔹 puxar campo do banco
         Principais: produto.Principais || "n", // 🔹 puxar campo do banco
+        DescricaoProduto: produto.DescricaoProduto,
       });
       setPreview(produto.Imagem || null);
     } else {
@@ -117,6 +121,7 @@ export default function Dashboard() {
         Jucelino: "n",
         AtivoJucelino: "n", // reset
         Principais: "n", // reset
+        DescricaoProduto: "",
       });
       setPreview(null);
     }
@@ -195,8 +200,9 @@ export default function Dashboard() {
           <thead>
             <tr className="sticky top-0 bg-gray-200 text-gray-700">
               <th className="px-4 py-2">Imagem</th>
-              <th className="px-4 py-2">Descrição</th>
+              <th className="px-4 py-2">Nome</th>
               <th className="px-4 py-2">Preço</th>
+              <th className="px-4 py-2">Descrição produto</th>
               <th className="px-4 py-2">Grupo</th>
               <th className="px-4 py-2">Ativo Vila Emil</th>
               <th className="px-4 py-2">Ativo Jucelino</th>
@@ -220,12 +226,13 @@ export default function Dashboard() {
                   )}
                 </td>
                 <td className="px-4 py-2 font-medium">{p.Descricao}</td>
-              <td className="px-4 py-2 text-green-600 font-semibold">
-  {Number(p.PrecoVenda).toLocaleString("pt-BR", {
-    style: "currency",
-    currency: "BRL"
-  })}
-</td>
+                <td className="px-4 py-2 text-green-600 font-semibold">
+                  {Number(p.PrecoVenda).toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  })}
+                </td>
+                  <td className="px-4 py-2 font-medium">{p.DescricaoProduto}</td>
                 <td className="px-4 py-2">{p.Grupo}</td>
                 <td className="px-4 py-2">{p.Ativo === "s" ? "Sim" : "Não"}</td>
                 <td className="px-4 py-2">
@@ -344,7 +351,7 @@ export default function Dashboard() {
       {/* Modal de Produto */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md overflow-y-auto h-[700px]">
             <h2 className="text-2xl font-semibold mb-4 text-gray-700">
               {editId ? "✏️ Editar Produto" : "➕ Novo Produto"}
             </h2>
@@ -373,6 +380,17 @@ export default function Dashboard() {
                   })
                 }
                 className="w-full border rounded-lg px-3 py-2 mb-4"
+              />
+
+              {/* 🔹 Textarea para descrição detalhada do produto */}
+              <textarea
+                placeholder="Descrição detalhada do produto..."
+                value={form.DescricaoProduto}
+                onChange={(e) =>
+                  setForm({ ...form, DescricaoProduto: e.target.value })
+                }
+                className="w-full border rounded-lg px-3 py-2 mb-4 focus:ring-2 focus:ring-blue-500"
+                rows="4"
               />
 
               {/* 🔹 Select de Grupos */}
