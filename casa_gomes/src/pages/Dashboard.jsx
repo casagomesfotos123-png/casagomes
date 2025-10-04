@@ -233,7 +233,7 @@ export default function Dashboard() {
                   })}
                 </td>
                 <td className="px-4 py-2 "><p
-  className="text-[.85em] h-[45px] overflow-auto whitespace-pre-line scrollbar-hide"
+  className="text-[.85em] w-[20ch] h-[45px] overflow-auto whitespace-pre-line scrollbar-hide"
   style={{
     scrollbarWidth: "none", // Firefox
     msOverflowStyle: "none", // IE e Edge antigo
