@@ -357,7 +357,7 @@ export default function Dashboard() {
       {/* Modal de Produto */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md overflow-y-auto h-[500px]  scroll-hidden"   style={{
+          <div className="bg-white rounded-lg shadow-lg p-6 w-[90%] md:w-full max-w-md overflow-y-auto h-[500px]  scroll-hidden"   style={{
     scrollbarWidth: "none", // Firefox
     msOverflowStyle: "none", // IE e Edge antigo
   }}>

@@ -386,7 +386,7 @@ export default function Produtos() {
       {/* Modal (inalterado) */}
       {showModal && produtoSelecionado && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[3000]">
-          <div className="bg-white text-black rounded-lg shadow-lg p-6 w-full max-w-sm">
+          <div className="bg-white text-black rounded-lg shadow-lg p-6 w-[95%] md:w-full max-w-sm">
             <h2 className="text-xl font-semibold mb-4">Adicionar ao Carrinho</h2>
             <div className="flex items-center gap-4">
               <img
