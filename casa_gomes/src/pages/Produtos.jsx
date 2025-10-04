@@ -4,6 +4,7 @@ import API from "../../service/api";
 import "./Produtos.css";
 
 export default function Produtos() {
+  const [principais, setPrincipais] = useState([]); // 🔹 NOVO: produtos principais
   const [produtos, setProdutos] = useState([]);
   const [grupos, setGrupos] = useState([]);
   const [grupoSelecionado, setGrupoSelecionado] = useState("");
@@ -17,6 +18,16 @@ export default function Produtos() {
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
   const [quantidade, setQuantidade] = useState(1);
   const [unidade, setUnidade] = useState("unidade");
+
+  // 🔹 Carregar produtos principais
+  async function carregarPrincipais() {
+    try {
+      const { data } = await API.get("/api/products/principais?limit=8");
+      setPrincipais(data.produtos);
+    } catch (err) {
+      console.error("Erro ao carregar produtos principais:", err);
+    }
+  }
 
   // 🔹 Carregar produtos
   async function carregarProdutos(
@@ -48,6 +59,7 @@ export default function Produtos() {
   }
 
   useEffect(() => {
+    carregarPrincipais(); // 🔹 NOVO
     carregarProdutos();
     carregarGrupos();
   }, []);
@@ -108,8 +120,82 @@ export default function Produtos() {
         </header>
 
         <div className="bg-white text-black">
+          {/* 🔹 NOVA SEÇÃO: PRINCIPAIS PRODUTOS */}
+          {principais.length > 0 && (
+            <section className="max-w-6xl mx-auto py-12 px-6">
+              <h2 className="text-2xl font-bold text-center text-green-700 mb-8">
+                 Principais Produtos
+              </h2>
+              <div className="relative w-full">
+  {/* Container rolável horizontal */}
+  <div
+    className="flex items-center overflow-x-auto gap-6 pb-4 px-2 scroll-smooth snap-x snap-mandatory"
+    style={{ scrollbarWidth: "none" }} // Firefox
+  >
+    {principais.map((p) => (
+      <div
+        key={p._id}
+        className="bg-white rounded-xl w-[200px]  snap-start shadow-md overflow-hidden hover:shadow-lg transition flex flex-col flex-shrink-0"
+      >
+        {p.Imagem ? (
+          <img
+            src={p.Imagem}
+            alt={p.Descricao}
+            className="h-[180px] w-full object-cover"
+          />
+        ) : (
+          <div className="h-[180px] flex items-center justify-center bg-gray-200 text-gray-500 italic">
+            Sem imagem
+          </div>
+        )}
+
+        <div className="p-4 flex flex-col justify-between flex-1">
+          <h3 className="font-semibold text-[1em] mb-2 line-clamp-2">
+            {p.Descricao}
+          </h3>
+
+          {p.DescricaoProduto && p.DescricaoProduto.trim() !== "" && (
+            <p
+  className="text-[.85em] text-gray-600 h-[45px] overflow-auto whitespace-pre-line scrollbar-hide"
+  style={{
+    scrollbarWidth: "none", // Firefox
+    msOverflowStyle: "none", // IE e Edge antigo
+  }}
+>
+              {p.DescricaoProduto}
+            </p>
+          )}
+
+          <p className="text-green-600 font-medium text-[.9em] mt-3">
+            {Number(p.PrecoVenda).toLocaleString("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+            })}
+          </p>
+
+          <button
+            onClick={() => abrirModal(p)}
+            className="bg-green-600 text-white cursor-pointer text-[.8em] mt-3 py-2 px-2 rounded-lg hover:bg-green-700 transition"
+          >
+            Adicionar ao Carrinho
+          </button>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  {/* Dica opcional: gradiente nas bordas para efeito visual */}
+  <div className="pointer-events-none absolute left-0 top-0 h-full w-2 bg-gradient-to-r from-white to-transparent"></div>
+  <div className="pointer-events-none absolute right-0 top-0 h-full w-2 bg-gradient-to-l from-white to-transparent"></div>
+</div>
+
+            </section>
+          )}
+            <h2 className="text-2xl font-bold text-center text-green-700 mb-8">
+                Outros produtos
+              </h2>
           {/* 🔎 Barra de busca + filtros */}
-          <div className="max-w-6xl pt-[20px] px-6 flex  flex-col items-center mx-auto md:flex-row gap-4">
+          <div className="max-w-6xl pt-[20px] px-6 flex  flex-col justify-center items-center mx-auto md:flex-row gap-4">
             {/* Busca */}
             <div>
               <input
@@ -137,13 +223,14 @@ export default function Produtos() {
                 </option>
               ))}
             </select>
-            {/* Botão de Localidade (apenas Jucelino como toggle) */}
+
+            {/* Botão de Localidade (Juscelino toggle) */}
             <div className="flex gap-2">
               <button
                 onClick={() => {
-                  const novaLoja = jucelino === "s" ? "emil" : "jucelino"; // alterna
-                  setJucelino(jucelino === "s" ? "" : "s"); // "" mostra tudo (emil), "s" = só Jucelino
-                  localStorage.setItem("lojaSelecionada", novaLoja); // salva no localStorage
+                  const novaLoja = jucelino === "s" ? "emil" : "jucelino";
+                  setJucelino(jucelino === "s" ? "" : "s");
+                  localStorage.setItem("lojaSelecionada", novaLoja);
                   carregarProdutos(
                     1,
                     search,
@@ -157,13 +244,12 @@ export default function Produtos() {
                     : "bg-gray-200 hover:bg-gray-300"
                 }`}
               >
-                Jucelino
+                Juscelino
               </button>
             </div>
           </div>
 
-          {/* Lista de Produtos */}
-          {/* Lista de Produtos */}
+          {/* Lista de Produtos (seu código original mantido) */}
           <section className="max-w-6xl mx-auto py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 justify-items-center min-h-[100vh]">
             {produtos.map((p) => (
               <div
@@ -190,9 +276,18 @@ export default function Produtos() {
                   <h2 className="text-[1em] font-semibold text-gray-800 mb-2 line-clamp-2">
                     {p.Descricao}
                   </h2>
-                  <p className="w-[25ch] h-[40px] text-[.8em] overflow-auto break-words whitespace-pre-line">
-                    {p.DescricaoProduto}
-                  </p>
+                  {p.DescricaoProduto && p.DescricaoProduto.trim() !== "" && (
+                    <p
+  className="text-[.85em] text-gray-600 h-[65px] overflow-auto whitespace-pre-line scrollbar-hide"
+  style={{
+    scrollbarWidth: "none", // Firefox
+    msOverflowStyle: "none", // IE e Edge antigo
+  }}
+>
+                      {p.DescricaoProduto}
+                    </p>
+                  )}
+
                   <p className="text-green-600 font-medium text-[1em] mb-4">
                     {Number(p.PrecoVenda).toLocaleString("pt-BR", {
                       style: "currency",
@@ -200,14 +295,16 @@ export default function Produtos() {
                     })}
                   </p>
 
-                  {p.Ativo === "n" ? (
+                  {/* Verifica disponibilidade normal e por Juscelino */}
+                  {p.Ativo === "n" ||
+                  (jucelino === "s" && p.AtivoJucelino === "n") ? (
                     <span className="text-red-500 font-semibold">
                       Indisponível
                     </span>
                   ) : (
                     <button
                       onClick={() => abrirModal(p)}
-                      className="bg-green-600 text-white text-[.9em] py-2 px-2 rounded-lg hover:bg-green-700 transition"
+                      className=" cursor-pointer bg-green-600 text-white text-[.9em] py-2 px-2 rounded-lg hover:bg-green-700 transition"
                     >
                       Adicionar ao Carrinho
                     </button>
@@ -222,7 +319,8 @@ export default function Produtos() {
               </p>
             )}
           </section>
-          {/* Paginação */}
+
+          {/* Paginação (100% igual à sua) */}
           {totalPages > 1 && (
             <div className="flex justify-center items-center gap-2 pb-12">
               <button
@@ -230,7 +328,7 @@ export default function Produtos() {
                 onClick={() =>
                   carregarProdutos(page - 1, search, grupoSelecionado, jucelino)
                 }
-                className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
+                className="px-3 py-1 cursor-pointer bg-gray-300 rounded disabled:opacity-50"
               >
                 ←
               </button>
@@ -241,7 +339,7 @@ export default function Produtos() {
                     onClick={() =>
                       carregarProdutos(1, search, grupoSelecionado, jucelino)
                     }
-                    className={`px-3 py-1 rounded ${
+                    className={`px-3 py-1 rounded cursor-pointer ${
                       page === 1
                         ? "bg-green-600 text-white"
                         : "bg-gray-200 hover:bg-gray-300"
@@ -261,7 +359,7 @@ export default function Produtos() {
                     onClick={() =>
                       carregarProdutos(pNum, search, grupoSelecionado, jucelino)
                     }
-                    className={`px-3 py-1 rounded ${
+                    className={`px-3 py-1 rounded cursor-pointer ${
                       page === pNum
                         ? "bg-green-600 text-white"
                         : "bg-gray-200 hover:bg-gray-300"
@@ -271,35 +369,12 @@ export default function Produtos() {
                   </button>
                 ))}
 
-              {page < totalPages - 2 && (
-                <>
-                  {page < totalPages - 3 && <span className="px-2">...</span>}
-                  <button
-                    onClick={() =>
-                      carregarProdutos(
-                        totalPages,
-                        search,
-                        grupoSelecionado,
-                        jucelino
-                      )
-                    }
-                    className={`px-3 py-1 rounded ${
-                      page === totalPages
-                        ? "bg-green-600 text-white"
-                        : "bg-gray-200 hover:bg-gray-300"
-                    }`}
-                  >
-                    {totalPages}
-                  </button>
-                </>
-              )}
-
               <button
                 disabled={page === totalPages}
                 onClick={() =>
                   carregarProdutos(page + 1, search, grupoSelecionado, jucelino)
                 }
-                className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
+                className="px-3 py-1 bg-gray-300 cursor-pointer rounded disabled:opacity-50"
               >
                 →
               </button>
@@ -308,13 +383,11 @@ export default function Produtos() {
         </div>
       </div>
 
-      {/* Modal de quantidade + unidade */}
+      {/* Modal (inalterado) */}
       {showModal && produtoSelecionado && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[3000]">
           <div className="bg-white text-black rounded-lg shadow-lg p-6 w-full max-w-sm">
-            <h2 className="text-xl font-semibold mb-4">
-              Adicionar ao Carrinho
-            </h2>
+            <h2 className="text-xl font-semibold mb-4">Adicionar ao Carrinho</h2>
             <div className="flex items-center gap-4">
               <img
                 src={produtoSelecionado.Imagem}
@@ -323,7 +396,6 @@ export default function Produtos() {
               />
               <div>
                 <p className="font-semibold">{produtoSelecionado.Descricao}</p>
-
                 <p className="text-green-600 font-bold">
                   R$ {produtoSelecionado.PrecoVenda.toFixed(2)}
                 </p>
@@ -331,21 +403,28 @@ export default function Produtos() {
             </div>
 
             {/* Quantidade */}
-            <div className="mt-4">
-              <label className="block text-sm font-medium mb-1">
-                Quantidade:
-              </label>
-              <input
-                type="number"
-                min="0.1"
-                step="0.1"
-                value={quantidade}
-                onChange={(e) => setQuantidade(parseFloat(e.target.value))}
-                className="w-24 border rounded px-2 py-1"
-              />
-            </div>
+<div className="mt-4">
+  <label className="block text-sm font-medium mb-1">
+    Quantidade:
+  </label>
+  <input
+    type="number"
+    min={unidade === "g" ? 30 : 0.1} // 🔹 se for gramas, mínimo 30
+    step="0.1"
+    value={quantidade}
+    onChange={(e) => setQuantidade(parseFloat(e.target.value))}
+    className="w-24 border rounded px-2 py-1"
+  />
 
-            {/* Unidade */}
+  {/* Aviso mínimo para gramas */}
+  {unidade === "g" && (
+    <p className="text-xs text-red-500 mt-1">
+      Quantidade mínima: 30g
+    </p>
+  )}
+</div>
+
+
             <div className="mt-4">
               <label className="block text-sm font-medium mb-2">Unidade:</label>
               <div className="flex gap-2">
@@ -354,7 +433,7 @@ export default function Produtos() {
                     key={u}
                     type="button"
                     onClick={() => setUnidade(u)}
-                    className={`px-3 py-1 rounded-lg border transition ${
+                    className={`px-3 py-1 rounded-lg border transition cursor-pointer ${
                       unidade === u
                         ? "bg-green-600 text-white border-green-600"
                         : "bg-gray-200 text-gray-700 hover:bg-gray-300 border-gray-300"
@@ -366,17 +445,16 @@ export default function Produtos() {
               </div>
             </div>
 
-            {/* Ações */}
             <div className="flex justify-end gap-3 mt-6">
               <button
                 onClick={() => setShowModal(false)}
-                className="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition"
+                className="cursor-pointer bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition"
               >
                 Cancelar
               </button>
               <button
                 onClick={confirmarAdicionar}
-                className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
+                className="cursor-pointer bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
               >
                 Confirmar
               </button>

@@ -53,11 +53,11 @@ export default function MapasCarousel() {
             <h4 className="font-medium text-[1.3em]">Endereço</h4>
             <p className="text-[#994e19] text-[.8em]">
               <span className="font-medium text-[#6d3c1a] ">Vila Emil: </span>
-              Rua ambrosio 318 b, vila emil, mesquita.
+              Rua Ambrosio 318 b, Vila Emil, Mesquita.
             </p>
             <p className="text-[#994e19] text-[.8em]">
-              <span className="font-medium text-[#6d3c1a] ">Jucelino: </span>{" "}
-              Rua Marcial 247, jucelino, mesquita.
+              <span className="font-medium text-[#6d3c1a] ">Juscelino: </span>{" "}
+              Rua Marcial 247, Juscelino, Mesquita.
             </p>
           </div>
         </div>
@@ -95,8 +95,8 @@ export default function MapasCarousel() {
           <div>
             <h4 className="text-[1.2em] font-medium">Telefone</h4>
             <p className="text-[#994e19] text-[.8em]"><span className="font-medium text-[#6e3812]">Vila Emil: </span>21993702096</p>
-            <p className="text-[#994e19] text-[.8em]"><span className="font-medium text-[#6e3812]">Jucelino: </span>21996269425</p>
-            <p className="text-[#994e19] text-[.8em]">(sac) 99656-8665</p>
+            <p className="text-[#994e19] text-[.8em]"><span className="font-medium text-[#6e3812]">Juscelino: </span>21996269425</p>
+            <p className="text-[#994e19] text-[.8em]"><span className="font-medium text-[#6e3812]">(sac):</span> 21996568665</p>
             <p className="text-[#994e19] text-[.8em]">
               WhatsApp disponível para pedidos e informações
             </p>

@@ -225,26 +225,32 @@ export default function Dashboard() {
                     <span className="text-gray-400 italic">Sem imagem</span>
                   )}
                 </td>
-                <td className="px-4 py-2 font-medium">{p.Descricao}</td>
-                <td className="px-4 py-2 text-green-600 font-semibold">
+                <td className="px-4 py-2 font-medium text-[.8em]">{p.Descricao}</td>
+                <td className="px-4 py-2 text-green-600 font-semibold text-[.8em]">
                   {Number(p.PrecoVenda).toLocaleString("pt-BR", {
                     style: "currency",
                     currency: "BRL",
                   })}
                 </td>
-                <td className="px-4 py-2  font-medium"><p className="w-[25ch] h-[40px] text-[.8em] overflow-auto break-words whitespace-pre-line">{p.DescricaoProduto}</p></td>
-                <td className="px-4 py-2">{p.Grupo}</td>
-                <td className="px-4 py-2">{p.Ativo === "s" ? "Sim" : "Não"}</td>
-                <td className="px-4 py-2">
+                <td className="px-4 py-2 "><p
+  className="text-[.85em] h-[45px] overflow-auto whitespace-pre-line scrollbar-hide"
+  style={{
+    scrollbarWidth: "none", // Firefox
+    msOverflowStyle: "none", // IE e Edge antigo
+  }}
+>{p.DescricaoProduto}</p></td>
+                <td className="px-4 py-2 text-[.8em]">{p.Grupo}</td>
+                <td className="px-4 py-2 text-[.8em]">{p.Ativo === "s" ? "Sim" : "Não"}</td>
+                <td className="px-4 py-2 text-[.8em]">
                   {p.AtivoJucelino === "s" ? "Sim" : "Não"}
                 </td>
-                <td className="px-4 py-2">
+                <td className="px-4 py-2 text-[.8em]">
                   {p.Principais === "s" ? "Sim" : "Não"}
                 </td>
-                <td className="px-4 py-2">
+                <td className="px-4 py-2 text-[.8em]">
                   {p.Jucelino === "s" ? "Sim" : "Não"}
                 </td>
-                <td className="px-4 py-2 flex gap-2">
+                <td className="px-4 py-2 flex gap-2 text-[.8em]">
                   <button
                     onClick={() => abrirModal(p)}
                     className="bg-yellow-400 cursor-pointer text-white px-3 py-1 rounded-lg hover:bg-yellow-500 transition"
@@ -309,7 +315,7 @@ export default function Dashboard() {
             <button
               key={pNum}
               onClick={() => carregarProdutos(pNum, search, grupoSelecionado)}
-              className={`px-3 py-1 rounded text-[.9em] ${
+              className={`px-3 py-1 rounded text-[.9em] cursor-pointer ${
                 page === pNum
                   ? "bg-blue-600 text-white"
                   : "bg-gray-200 hover:bg-gray-300"
@@ -327,7 +333,7 @@ export default function Dashboard() {
               onClick={() =>
                 carregarProdutos(totalPages, search, grupoSelecionado)
               }
-              className={`px-3 py-1 rounded text-[.9em] ${
+              className={`px-3 py-1 rounded text-[.9em] cursor-pointer ${
                 page === totalPages
                   ? "bg-blue-600 text-white"
                   : "bg-gray-200 hover:bg-gray-300"
@@ -342,7 +348,7 @@ export default function Dashboard() {
         <button
           disabled={page === totalPages}
           onClick={() => carregarProdutos(page + 1, search, grupoSelecionado)}
-          className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
+          className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50 cursor-pointer"
         >
           →
         </button>
@@ -351,7 +357,10 @@ export default function Dashboard() {
       {/* Modal de Produto */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md overflow-y-auto h-[700px]">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md overflow-y-auto h-[500px]  scroll-hidden"   style={{
+    scrollbarWidth: "none", // Firefox
+    msOverflowStyle: "none", // IE e Edge antigo
+  }}>
             <h2 className="text-2xl font-semibold mb-4 text-gray-700">
               {editId ? "✏️ Editar Produto" : "➕ Novo Produto"}
             </h2>
@@ -442,7 +451,7 @@ export default function Dashboard() {
                   onChange={(e) =>
                     setForm({ ...form, Jucelino: e.target.checked ? "s" : "n" })
                   }
-                  className="w-5 h-5 cursor-pointer"
+                  className=" cursor-pointer"
                 />
                 <span>Jucelino</span>
               </label>

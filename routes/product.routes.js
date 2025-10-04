@@ -64,4 +64,43 @@ router.get("/grupos", async (req, res) => {
   }
 });
 
+
+router.get("/principais", async (req, res) => {
+  try {
+    const { page = 1, limit = 12, search = "", grupo = "", jucelino = "" } = req.query;
+
+    // 🔎 Query fixa com Principais = "s"
+    let query = { Principais: "s" };
+
+    if (search) {
+      query.Descricao = { $regex: search, $options: "i" };
+    }
+
+    if (grupo) {
+      query.Grupo = grupo;
+    }
+
+    if (jucelino) {
+      query.Jucelino = jucelino; // "s" ou "n"
+    }
+
+    const produtos = await Product.find(query)
+      .skip((page - 1) * limit)
+      .limit(Number(limit));
+
+    const total = await Product.countDocuments(query);
+
+    res.json({
+      produtos,
+      total,
+      page: Number(page),
+      totalPages: Math.ceil(total / limit),
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: "Erro ao listar produtos principais",
+      error: err.message,
+    });
+  }
+});
 export default router;

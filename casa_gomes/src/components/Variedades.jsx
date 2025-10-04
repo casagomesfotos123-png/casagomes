@@ -6,7 +6,7 @@ function Variedade() {
     <>
       <section className="container_variedade flex flex-col justify-center items-center relativo z-0 pb-[5em] overflow-hidden">
         <h2 data-aos='fade-down' className="text-2xl md:text-4xl font-medium md:w-[35ch] p-[1em]">
-          A maior <span className="text-[#803f3f]">variedade </span>e <span className="text-[#FB4300]">qualidade</span> reunida para
+          A maior <span className="text-[#319b23]">variedade </span>e <span className="text-[#FB4300]">qualidade</span> reunida para
           você.
         </h2>
 
