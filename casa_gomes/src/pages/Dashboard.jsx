@@ -107,7 +107,7 @@ export default function Dashboard() {
         Jucelino: produto.Jucelino || "n",
         AtivoJucelino: produto.AtivoJucelino || "n", // 🔹 puxar campo do banco
         Principais: produto.Principais || "n", // 🔹 puxar campo do banco
-        DescricaoProduto: produto.DescricaoProduto,
+        DescricaoProduto: produto.DescricaoProduto || "",
       });
       setPreview(produto.Imagem || null);
     } else {
