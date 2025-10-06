@@ -396,7 +396,7 @@ export default function Dashboard() {
                 placeholder="Descrição detalhada do produto..."
                 value={form.DescricaoProduto}
                 onChange={(e) =>
-                  setForm({ ...form, DescricaoProduto: e.target.value })
+                  setForm({ ...form, DescricaoProduto: e.target.value || "" })
                 }
                 className="w-full border rounded-lg px-3 py-2 mb-4 focus:ring-2 focus:ring-blue-500"
                 rows="4"
